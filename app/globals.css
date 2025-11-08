@@ -1,26 +1,114 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-primary-background: #F9F8F7;
+  --color-primary-accent: #A17D5F;
+  --color-foreground: #171717;
+  --font-sans: var(--font-inter), sans-serif;
+  --font-gt: var(--font-gt-america-extended), sans-serif;
+  --font-tiempos: var(--font-tiempos-text), serif;
+  --animate-mask-wipe: maskWipe 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes maskWipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0% 0 0);
   }
 }
 
+:root {
+  --primary-background: #F9F8F7;
+  --primary-accent: #A17D5F;
+  --foreground: #171717;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-primary-background);
+  color: var(--color-foreground);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  .nav-link {
+    @apply relative inline-block;
+  }
+  .nav-link::after {
+    @apply content-[''] absolute bottom-[-4px] left-0 w-0 h-[1px] transition-all duration-300 ease-out;
+    background-color: var(--color-primary-accent);
+  }
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+  .nav-link.active::after {
+    @apply w-full;
+  }
+}
+
+.header-transparent {
+  background-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.frosted-glass {
+  @apply backdrop-blur-[10px] bg-[rgba(249,248,247,0.85)] transition-all duration-500 ease-out;
+  -webkit-backdrop-filter: blur(10px);
+}
+
+@keyframes menuWipeUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes menuIris {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.menu-overlay-wipe {
+  opacity: 1;
+  animation: menuWipeUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menu-overlay-iris {
+  opacity: 1;
+  animation: menuIris 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 1200px) {
+  .hero-video-container {
+    cursor: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero-video-container:hover {
+    cursor: none;
+  }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

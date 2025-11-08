@@ -1,65 +1,144 @@
-import Image from "next/image";
+import type { Metadata } from 'next';
+import Header from '@/components/Header';
+import HomepageLogotype from '@/components/HomepageLogotype';
+import HomepageNavColumn from '@/components/HomepageNavColumn';
+import HeroVideo from '@/components/HeroVideo';
+import HeroManifesto from '@/components/HeroManifesto';
+import ScrollHint from '@/components/ScrollHint';
+import IntroductoryText from '@/components/IntroductoryText';
+import PhilosophyTeaser from '@/components/PhilosophyTeaser';
+import OfferingsTeaser from '@/components/OfferingsTeaser';
+import VisitCTA from '@/components/VisitCTA';
+import Footer from '@/components/Footer';
+
+export const metadata: Metadata = {
+  title: "Tone Coffee Shop | Specialty Coffee & Design in Craiova",
+  description: "Architectural design meets single-origin specialty coffee in Casa Albă, Craiova. Explore our craft, space, and offerings.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Tone Coffee Shop | Specialty Coffee & Design in Craiova",
+    description: "Architectural design meets single-origin specialty coffee in Casa Albă, Craiova. Explore our craft, space, and offerings.",
+    url: "/",
+    images: [
+      {
+        url: "/assets/images/hero-fallback.webp",
+        width: 1200,
+        height: 630,
+        alt: "Tone Coffee Shop interior - Casa Albă",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tone Coffee Shop | Specialty Coffee & Design in Craiova",
+    description: "Architectural design meets single-origin specialty coffee in Casa Albă, Craiova.",
+    images: ["/assets/images/hero-fallback.webp"],
+  },
+};
 
 export default function Home() {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://tone.coffee';
+
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Tone",
+    "image": `${siteUrl}/assets/images/typography-logo.png`,
+    "@id": siteUrl,
+    "url": siteUrl,
+    "telephone": "+40712345678",
+    "email": "hello@tone.coffee",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Strada Mihai Viteazul 10",
+      "addressLocality": "Craiova",
+      "addressCountry": "RO"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 44.3196,
+      "longitude": 23.7978
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "08:00",
+        "closes": "18:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Saturday", "Sunday"],
+        "opens": "09:00",
+        "closes": "17:00"
+      }
+    ],
+    "priceRange": "$$"
+  };
+
+  const restaurantSchema = {
+    "@context": "https://schema.org",
+    "@type": "CafeOrCoffeeShop",
+    "name": "Tone",
+    "image": `${siteUrl}/assets/images/hero-fallback.webp`,
+    "@id": `${siteUrl}#restaurant`,
+    "url": siteUrl,
+    "telephone": "+40712345678",
+    "email": "hello@tone.coffee",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Strada Mihai Viteazul 10",
+      "addressLocality": "Craiova",
+      "addressCountry": "RO"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 44.3196,
+      "longitude": 23.7978
+    },
+    "servesCuisine": "Coffee",
+    "priceRange": "$$"
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(restaurantSchema) }}
+      />
+      <Header isHomepage={true} />
+      <main>
+        <div className="min-h-screen flex flex-col xl:flex-row">
+          <div className="w-full xl:w-[70%] h-screen relative overflow-hidden">
+            <HeroVideo />
+            <div className="hidden xl:block">
+              <HomepageLogotype />
+            </div>
+            <div className="xl:hidden">
+              <HeroManifesto isMobile={true} />
+            </div>
+            <div className="xl:hidden">
+              <ScrollHint isMobile={true} />
+            </div>
+          </div>
+          <div className="hidden xl:block w-[30%] h-screen bg-[#F9F8F7] relative">
+            <HomepageNavColumn />
+            <HeroManifesto isMobile={false} />
+            <ScrollHint isMobile={false} />
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+        <IntroductoryText />
+        <PhilosophyTeaser />
+        <OfferingsTeaser />
+        <VisitCTA />
       </main>
-    </div>
+      <Footer />
+    </>
   );
 }
